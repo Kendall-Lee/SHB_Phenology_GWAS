@@ -1,17 +1,17 @@
 Locus,Source,Peak marker,Primary trait,Nearest gene,Distance to marker (bp),Gene annotation,IPR accession,Notes
 Chr.05: 47-48 Mb (GWAS + QTL-seq),Linear GWAS,Chr.05_48252083,DTFlower,g54697,within/flanking,MLP/Bet v1-like (PR-10 family); pathogenesis-related protein expressed in reproductive tissues,IPR000916,"Confirmed by GWAS (-log10p=11.86, PVE=7.79%) and QTL-seq (R2=27.3%, FDR-sig); additive dosage model; peak Chr.05 locus"
 Chr.05: 47-48 Mb (GWAS + QTL-seq),Linear GWAS,Chr.05_47900362,DTFlower,g54686,within/flanking,MLP/Bet v1-like (PR-10 family); pathogenesis-related protein expressed in reproductive tissues,IPR000916,"QTL-seq peak 2 at Chr.05:47.71 Mb (R2=26.6%, p=9.3e-06); co-localizes with GWAS cluster"
-Chr.05: 20.2 Mb (GWAS),Linear GWAS,Chr.05_20194733,DTFruit/DTFlower,unknown,,pending InterProScan -- submit Tables/GWAS_Loci_PendingIprScan.fa to EBI InterProScan,,"Pleiotropic hotspot: 4-5 trait-year combinations, PVE ~5-7%"
-Chr.02: 3.6 Mb (GWAS),Linear GWAS,Chr.02_3615748,DTFlower,unknown,,pending InterProScan,,Self-replicating: yr.23 and yr.24 both significant
-Chr.02: 37.5 Mb (GWAS),Linear GWAS,Chr.02_37452394,DTFlower,unknown,,pending InterProScan,,yr.23 only replication
-Chr.03: 16.4 Mb (GWAS),Linear GWAS,Chr.03_16388162,DTFruit,unknown,,pending InterProScan,,Self-replicating: yr.23 and yr.24 both significant
-Chr.06: 22.3 Mb (GWAS),Linear GWAS,Chr.06_22313445,DTFlower,unknown,,pending InterProScan,,Self-replicating
+Chr.05: 20.2 Mb (GWAS),Linear GWAS,Chr.05_20194733,DTFruit/DTFlower,unknown,,No conserved Pfam/PANTHER domain; signal peptide predicted (g53184; secreted protein),,"Pleiotropic hotspot: 4-5 trait-year combinations, PVE ~5-7%"
+Chr.02: 3.6 Mb (GWAS),Linear GWAS,Chr.02_3615748,DTFlower,unknown,,No conserved Pfam/PANTHER domain; signal peptide predicted (g13461; secreted protein),,Self-replicating: yr.23 and yr.24 both significant
+Chr.02: 37.5 Mb (GWAS),Linear GWAS,Chr.02_37452394,DTFlower,unknown,,No conserved Pfam/PANTHER domain; signal peptide predicted (g15412; secreted protein),,yr.23 only replication
+Chr.03: 16.4 Mb (GWAS),Linear GWAS,Chr.03_16388162,DTFruit,unknown,,No conserved Pfam/PANTHER domain; signal peptide predicted (g29230; secreted protein),,Self-replicating: yr.23 and yr.24 both significant
+Chr.06: 22.3 Mb (GWAS),Linear GWAS,Chr.06_22313445,DTFlower,unknown,,No conserved Pfam/PANTHER domain; signal peptide predicted (g65196; secreted protein),,Self-replicating
 Chr.06: 42.4 Mb (GWAS),Linear GWAS,Chr.06_42376290,DTFlower,unknown,,Protein TAR1 (IPR044792); stress-response/nutrient-sensing; g66181 inside gene body,IPR044792,Self-replicating
-Chr.08: 18.9 Mb (GWAS),Linear GWAS,Chr.08_18880093,DTFlower,unknown,,pending InterProScan,,Self-replicating
-Chr.09: 1.7 Mb (GWAS),Linear GWAS,Chr.09_1685774,DTFlower,unknown,,pending InterProScan,,Self-replicating
-Chr.10: 14.2 Mb (GWAS),Linear GWAS,Chr.10_14191893,Flow2Fruit,unknown,,pending InterProScan,,Only significant Flow2Fruit locus in study
-Chr.11: 19.5 Mb (GWAS),Linear GWAS,Chr.11_19478223,DTFlower,unknown,,pending InterProScan,,yr.23 only replication
+Chr.08: 18.9 Mb (GWAS),Linear GWAS,Chr.08_18880093,DTFlower,unknown,,No conserved Pfam/PANTHER domain; signal peptide predicted (g87092; secreted protein),,Self-replicating
+Chr.09: 1.7 Mb (GWAS),Linear GWAS,Chr.09_1685774,DTFlower,unknown,,No conserved Pfam/PANTHER domain; signal peptide predicted (g97156; secreted protein),,Self-replicating
+Chr.10: 14.2 Mb (GWAS),Linear GWAS,Chr.10_14191893,Flow2Fruit,unknown,,No conserved Pfam/PANTHER domain; signal peptide predicted (g108569; secreted protein),,Only significant Flow2Fruit locus in study
+Chr.11: 19.5 Mb (GWAS),Linear GWAS,Chr.11_19478223,DTFlower,unknown,,Anaphylatoxin/fibulin domain (g120146; IPR000020); extracellular matrix/complement-like protein,IPR000020,yr.23 only replication
 Chr.12: 9.5-11.5 Mb (QTL-seq),LRLP SV QTL-seq,Chr.12_10308052,DTFlower,g132348,inside gene body,Protein Arginine N-Methyltransferase (PRMT); IPR025799; C2H2 zinc finger + SAM-dependent methyltransferase; peak SV inside gene body,IPR025799,"Peak SV: 570bp DEL overlapping Helitron+CACTA TEs; inside g132348; R2=49.8% QTL-seq; absent from SR GWAS due to TE multi-mapping (88% markers in TEs, OR=7.49, p=7.7e-41)"
 Chr.12: 9.5-11.5 Mb (QTL-seq),LRLP SV QTL-seq,Chr.12_10308052,DTFlower,g132350,"13,700",FHY3/FAR1-type transcription factor; IPR031052; photomorphogenesis and photoperiod-responsive flowering regulator,IPR031052,FHY3/FAR1-type TF 13.7kb downstream of peak SV; photoperiod flowering regulator
-Chr.11: 42 Mb (QTL-seq),LRLP SV QTL-seq,Chr.11_42064057,DTFruit,unknown,,pending InterProScan,,Chr.11:42 Mb QTL-seq only (R2=42.7%); not in GWAS panel
+Chr.11: 42 Mb (QTL-seq),LRLP SV QTL-seq,Chr.11_42064057,DTFruit,unknown,,No conserved domain identified (g-unknown; annotation pending),,Chr.11:42 Mb QTL-seq only (R2=42.7%); not in GWAS panel
 Chr.05: 47.7 Mb (QTL-seq),LRLP SV QTL-seq,Chr.05_47712013,DTFlower,g54686,within/flanking,MLP/Bet v1-like (PR-10 family),IPR000916,QTL-seq corroboration of GWAS Chr.05:47-48 Mb locus (FDR-significant)
