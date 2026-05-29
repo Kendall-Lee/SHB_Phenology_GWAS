@@ -1,0 +1,36 @@
+# Large data files (deposited to NCBI SRA)
+*.RData
+*.rds
+*.bam
+*.bai
+*.vcf
+*.vcf.gz
+*.tbi
+*.fasta
+*.fa
+*.fastq
+*.fastq.gz
+*.bed.gz
+
+# Figures (too large; released separately or as journal submission)
+*.pdf
+*.png
+*.tiff
+*.eps
+
+# Intermediate outputs
+*.tmp
+*.log
+
+# Excel files (CSVs are version-controlled instead)
+*.xlsx
+*.xls
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# R session artifacts
+.Rhistory
+.RData
+.Rproj.user/

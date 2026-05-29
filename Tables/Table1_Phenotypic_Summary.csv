@@ -1,0 +1,5 @@
+Trait,H2 (classical),H2 (Cullis),yr.23 mean (days),yr.23 SD,yr.24 mean (days),yr.24 SD,yr.25 mean (days),yr.25 SD,Rank r (yr.23 x yr.24),Rank r (yr.23 x yr.25)
+Days to 50% Flowering (DTFlower),0.844,0.831,52.8,13.3,61.2,11.2,79.7,6.9,,0.539
+Days to 50% Ripe Fruit (DTFruit),0.911,0.899,120.4,15.6,127.6,12.9,133.6,15.7,,0.736
+Fruiting Period (Flow2Fruit),0.734,0.71,67.7,12.1,67,12.5,53.3,17.4,,0.385
+25-Fruit Weight (FruitWeight),0.842,0.824,48.5,13,47.9,14.7,53,15.1,,0.597
