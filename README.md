@@ -2,7 +2,7 @@
 
 **"A chromosome-scale Southern Highbush Blueberry reference genome enables dosage-sensitive GWAS of reproductive phenology"**
 
-Kendall Lee et al. — *The Plant Genome* (in preparation)
+Kendall Lee et al. (in preparation)
 
 ---
 
