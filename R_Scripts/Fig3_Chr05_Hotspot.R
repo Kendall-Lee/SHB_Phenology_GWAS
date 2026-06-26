@@ -436,10 +436,16 @@ pA_labelled <- plot_grid(
   pA_combined,
   ncol = 1, rel_heights = c(0.05, 1)
 )
-pBC_label <- ggdraw() + draw_label("B", fontface = "bold", size = 14, x = 0.01, hjust = 0)
-pC_label  <- ggdraw() + draw_label("C", fontface = "bold", size = 14, x = 0.01, hjust = 0)
+pBC_label    <- ggdraw() + draw_label("B", fontface = "bold", size = 14, x = 0.01, hjust = 0)
+pC_label     <- ggdraw() + draw_label("C", fontface = "bold", size = 14, x = 0.01, hjust = 0)
+pB_mrkr_lbl  <- ggdraw() + draw_label(
+  sprintf("Peak marker: %s  (Chr.05: 48.252 Mb)", TOP_MARKER),
+  fontface = "italic", size = 8.5, x = 0.06, hjust = 0, colour = "grey30")
 
-pB_labelled <- plot_grid(pBC_label, pB_row, ncol = 1, rel_heights = c(0.07, 1))
+pB_labelled <- plot_grid(
+  plot_grid(pBC_label, pB_mrkr_lbl, nrow = 1, rel_widths = c(0.06, 1)),
+  pB_row,
+  ncol = 1, rel_heights = c(0.09, 1))
 pC_labelled <- plot_grid(pC_label,  pC_full, ncol = 1, rel_heights = c(0.07, 1))
 
 bottom_row <- plot_grid(pB_labelled, pC_labelled,
