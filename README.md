@@ -1,6 +1,6 @@
 # SHB Phenology GWAS and QTL-seq Analysis
 
-**"Genomic architecture of phenological timing in Southern Highbush Blueberry (*Vaccinium corymbosum* L.): a chromosome-scale reference genome enables tetraploid GWAS of days to flowering, days to fruit, and fruiting period"**
+**"A chromosome-scale Southern Highbush Blueberry reference genome enables dosage-sensitive GWAS of reproductive phenology"**
 
 Kendall Lee et al. — *The Plant Genome* (in preparation)
 
@@ -32,18 +32,22 @@ docs/            # Figure legends, manuscript notes
 
 | Script | Output |
 |---|---|
-| `Fig1_Phenotypic_Context.R` | Fig 1 — trait distributions, frost weather, DTFlower SD collapse |
+| `Fig1_Phenotypic_Context.R` | Fig 1 — trait correlations, frost weather, DTFlower SD collapse |
 | `Fig2_Manhattan_TPG.R` | Fig 2 — GWAS Manhattan (BLUE_exc.25 + yr.23/24/25; TPG specs) |
-| `Fig2_Manhattan.R` | Fig 2 — earlier draft Manhattan |
-| `Fig3_Chr05_Hotspot.R` | Fig 3 — Chr.05:47–48 Mb regional zoom + allele effects + BSA overlay |
-| `Fig4_StableQTL_Heatmap.R` | Fig 4 — 22-locus × 12 trait-year heatmap |
-| `Fig6_Chr03_StressLocus.R` / `Fig4_Yr25_Stress_QTL.R` | Fig 5 — yr.25 stress QTL PVE bars |
+| `Fig2_Manhattan.R` | Fig 2 — alternative Manhattan layout |
+| `Fig3_Chr05_Hotspot.R` | Fig 3 — Chr.05:47–48 Mb regional zoom + allele dosage effects + BSA overlay |
+| `Fig3_Chr05_Slide.R` | Fig 3 — slide version of Chr.05 hotspot figure |
+| `Fig4_StableQTL_Heatmap.R` | Fig 4 — 22-locus × trait-year stability heatmap |
+| `Fig4_Yr25_Stress_QTL.R` | Fig 5 — yr.2025 stress QTL: F2F density distribution + Jan temp + PVE bars |
+| `Fig6_Chr03_StressLocus.R` | Fig 5 (archived) — earlier stress QTL figure; superseded by Fig4_Yr25_Stress_QTL.R |
 | `FigS2_Yr25_Manhattan.R` | Sup Fig S2 — yr.25 stress GWAS Manhattan (4-trait 2×2 grid) |
-| `FigS_Allele_Effects_AllLoci.R` | Sup Fig — dosage boxplots for all stable loci |
+| `FigS_Allele_Effects_AllLoci.R` | Sup Fig S1 — dosage boxplots for all 22 stable loci |
 | `FigS_Allele_Effects_Secondary.R` | Sup Fig — dosage boxplots for secondary loci |
-| `SupFigS7_Suziblue_Assembly.R` | Sup Fig S7 — Suziblue Hi-C contact map + synteny |
+| `FigS_QQ_Lambda.R` | Sup Fig — Q-Q plots and genomic inflation (λ) across traits and years |
+| `Chr05_CandidateGene_Table.R` | Sup Table — Chr.05 candidate gene annotation table |
+| `SupFigS7_Suziblue_Assembly.R` | Sup Fig S7 — Suziblue Hi-C contact map + W85-20 synteny dot plot |
 | `Build_All_Tables.R` | All main-text and supplementary tables |
-| `SupplTable_S1.R` | Supplementary Table S1 generation |
+| `SupplTable_S1.R` | Supplementary Table S1 — all 88 significant markers |
 | `Fig4_Chr12_QTLseq.R` | Chr.12 QTL-seq figure (future manuscript) |
 
 ### BSA_QTLseq
@@ -66,6 +70,7 @@ In-house bulk segregant analysis pipeline for the LRLP long-read panel. Implemen
 |---|---|
 | `build_lrlp_coverage_fig.py` | Scatter plot: LRLP mean haploid depth vs. % genome breadth coverage (n=95) |
 | `build_methods_clean.py` | Study design flowchart figure (matplotlib, publication style) |
+| `offprobe_gene_intersect.py` | Intersects all 109,927 GWAS markers against BRAKER hap1 gene bodies; quantifies genic fraction of off-probe markers (see `docs/offprobe_gene_intersect_results.md`) |
 
 ### Tables
 
@@ -77,6 +82,7 @@ In-house bulk segregant analysis pipeline for the LRLP long-read panel. Implemen
 | `SupplTable_S2_Candidate_Genes.csv` | Candidate gene annotations (GWAS + QTL-seq loci) |
 | `SupplTable_S3_QTLseq_TopRegions.csv` | QTL-seq top regions (All3_Sig hits + corroboration) |
 | `GWAS_Loci_PendingIprScan.fa` | Protein sequences for 9 GWAS loci awaiting InterProScan annotation |
+| `offprobe_genic_markers.bed` | BED6: all 109,927 GWAS markers annotated with probe class (enriched/wgs_only) and gene overlap (genic/intergenic) |
 
 ---
 
@@ -86,7 +92,7 @@ In-house bulk segregant analysis pipeline for the LRLP long-read panel. Implemen
 |---|---|---|
 | Raw phenotyping data | This repository (Tables/) | — |
 | Genotyping data (SR SNPs) | NCBI SRA | *[to be deposited]* |
-| LRLP long-read sequencing | NCBI SRA | *[to be deposited]* |
+| LRLP long-read sequencing | NCBI SRA | PRJNA1478977 |
 | Suziblue hap1 reference | NCBI GenBank | *[to be deposited]* |
 
 ---
