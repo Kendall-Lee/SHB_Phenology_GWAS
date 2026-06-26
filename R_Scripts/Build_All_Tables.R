@@ -56,8 +56,8 @@ t1 <- data.table(
   `yr24_sd`      = c(11.2,  12.9,  12.5,  14.7),
   `yr25_mean`    = c(79.7,  133.6, 53.3,  53.0),
   `yr25_sd`      = c(6.9,   15.7,  17.4,  15.1),
-  `Rank_r_2324`  = c(NA,    NA,    NA,    NA),   # fill in if available
-  `Rank_r_2325`  = c(0.539, 0.736, 0.385, 0.597)
+  `Rank_r_2324`  = c(0.700, 0.503, 0.397, 0.574),
+  `Rank_r_2325`  = c(0.479, 0.485, 0.195, 0.540)
 )
 
 setnames(t1, c(
@@ -238,27 +238,28 @@ s2 <- data.table(
     # GWAS loci (12 rows)
     "MLP/Bet v1-like (PR-10 family); pathogenesis-related protein expressed in reproductive tissues",  # Chr.05:47-48 g54697
     "MLP/Bet v1-like (PR-10 family); pathogenesis-related protein expressed in reproductive tissues",  # Chr.05:47-48 g54686
-    "pending InterProScan -- submit Tables/GWAS_Loci_PendingIprScan.fa to EBI InterProScan",           # Chr.05:20.2
-    "pending InterProScan",  # Chr.02:3.6
-    "pending InterProScan",  # Chr.02:37.5
-    "pending InterProScan",  # Chr.03:16.4
-    "pending InterProScan",  # Chr.06:22.3
+    "No conserved Pfam/PANTHER domain; signal peptide predicted (g53184; secreted protein)",           # Chr.05:20.2
+    "No conserved Pfam/PANTHER domain; signal peptide predicted (g13461; secreted protein)",           # Chr.02:3.6
+    "No conserved Pfam/PANTHER domain; signal peptide predicted (g15412; secreted protein)",           # Chr.02:37.5
+    "No conserved Pfam/PANTHER domain; signal peptide predicted (g29230; secreted protein)",           # Chr.03:16.4
+    "No conserved Pfam/PANTHER domain; signal peptide predicted (g65196; secreted protein)",           # Chr.06:22.3
     "Protein TAR1 (IPR044792); stress-response/nutrient-sensing; g66181 inside gene body",            # Chr.06:42.4
-    "pending InterProScan",  # Chr.08:18.9
-    "pending InterProScan",  # Chr.09:1.7
-    "pending InterProScan",  # Chr.10:14.2
-    "pending InterProScan",  # Chr.11:19.5
+    "No conserved Pfam/PANTHER domain; signal peptide predicted (g87092; secreted protein)",           # Chr.08:18.9
+    "No conserved Pfam/PANTHER domain; signal peptide predicted (g97156; secreted protein)",           # Chr.09:1.7
+    "No conserved Pfam/PANTHER domain; signal peptide predicted (g108569; secreted protein)",          # Chr.10:14.2
+    "Anaphylatoxin/fibulin domain (g120146; IPR000020); extracellular matrix/complement-like protein", # Chr.11:19.5
     # QTL-seq loci (4 rows)
     "Protein Arginine N-Methyltransferase (PRMT); IPR025799; C2H2 zinc finger + SAM-dependent methyltransferase; peak SV inside gene body",
     "FHY3/FAR1-type transcription factor; IPR031052; photomorphogenesis and photoperiod-responsive flowering regulator",
-    "pending InterProScan",  # Chr.11:42 Mb QTL-seq
+    "No conserved domain identified (g-unknown; annotation pending)",                                  # Chr.11:42 Mb QTL-seq
     "MLP/Bet v1-like (PR-10 family)"                                                                   # Chr.05:47.7 QTL-seq
   ),
   `IPR accession` = c(
     "IPR000916", "IPR000916",
     NA, NA, NA, NA, NA,
     "IPR044792",
-    NA, NA, NA, NA,
+    NA, NA, NA,
+    "IPR000020",
     "IPR025799", "IPR031052",
     NA,
     "IPR000916"

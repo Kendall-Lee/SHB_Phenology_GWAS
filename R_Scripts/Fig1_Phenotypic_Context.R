@@ -19,16 +19,15 @@ pub_theme <- theme_classic(base_size = 11) +
     plot.subtitle    = element_text(size = 8, color = "grey40")
   )
 
-yr_colors  <- c("2023" = "#E69F00", "2024" = "#56B4E9", "2025" = "#CC0000")
+yr_colors  <- c("2023" = "#9ECAE1", "2024" = "#3182BD", "2025" = "#08519C")
 trait_labels <- c(DTFlower = "Days to\nFlowering",
                   DTFruit  = "Days to\nRipe Fruit",
-                  Flow2Fruit = "Fruiting\nPeriod",
-                  FruitWeight = "25-Fruit\nWeight")
+                  Flow2Fruit = "Fruiting\nPeriod")
 
 # ── Load phenotype data ───────────────────────────────────────────────────────
 pheno <- fread("/Users/kendalllee/Documents/Blueberry/FINAL_GWAS/Phenotypes/SHB_BLUE_all_pheno.csv")
 
-traits <- c("DTFlower", "DTFruit", "Flow2Fruit", "FruitWeight")
+traits <- c("DTFlower", "DTFruit", "Flow2Fruit")
 years  <- c("23", "24", "25")
 
 # Build 3 correlation matrices (one per year)
@@ -48,14 +47,14 @@ setnames(cor_dt, c("Var1", "Var2", "value"), c("Trait1", "Trait2", "r"))
 cor_dt[, Year := factor(Year, levels = c("2023", "2024", "2025"))]
 
 # Keep only lower triangle (including diagonal) to avoid redundancy
-trait_order <- c("DTFlower", "DTFruit", "Flow2Fruit", "FruitWeight")
+trait_order <- c("DTFlower", "DTFruit", "Flow2Fruit")
 cor_dt[, Trait1 := factor(Trait1, levels = trait_order)]
 cor_dt[, Trait2 := factor(Trait2, levels = rev(trait_order))]
 
 # Mask upper triangle
 cor_dt[, t1_idx := as.integer(Trait1)]
 cor_dt[, t2_idx := as.integer(Trait2)]
-cor_dt <- cor_dt[t1_idx >= (5 - t2_idx)]   # lower-left + diagonal
+cor_dt <- cor_dt[t1_idx >= (4 - t2_idx)]   # lower-left + diagonal
 
 # Correlation labels (hide diagonal 1.00)
 cor_dt[, label := ifelse(Trait1 == as.character(Trait2), "",
@@ -63,16 +62,16 @@ cor_dt[, label := ifelse(Trait1 == as.character(Trait2), "",
 
 # Short axis labels
 short_labels <- c(DTFlower = "DTFlw", DTFruit = "DTFrt",
-                  Flow2Fruit = "F2Fr", FruitWeight = "FrWt")
+                  Flow2Fruit = "F2Fr")
 
 pA <- ggplot(cor_dt, aes(x = Trait1, y = Trait2, fill = r)) +
   geom_tile(color = "white", linewidth = 0.4) +
   geom_text(aes(label = label), size = 2.8, color = "black") +
   facet_wrap(~Year, nrow = 1) +
   scale_fill_gradient2(
-    low      = "#0D3B6E",
+    low      = "#4292C6",
     mid      = "white",
-    high     = "#D84315",
+    high     = "#08306B",
     midpoint = 0,
     limits   = c(-1, 1),
     name     = "Pearson r"
@@ -111,7 +110,8 @@ pB <- ggplot(frost_dt, aes(x = Year, y = Count, fill = Year, alpha = Type)) +
            width = 0.6, color = "grey25", linewidth = 0.35) +
   geom_text(aes(label = Count),
             position = position_dodge(width = 0.7),
-            vjust = -0.35, size = 3.5, fontface = "bold") +
+            vjust = -0.35, size = 3.5, fontface = "bold",
+            show.legend = FALSE) +
   scale_fill_manual(values = yr_colors, guide = "none") +
   scale_alpha_manual(
     values = c("Frost days\n(min <=32F)"       = 1.0,
@@ -141,19 +141,18 @@ pC <- ggplot(sd_dt, aes(x = Year, y = SD, fill = Year)) +
             vjust = -0.35, size = 3.5, fontface = "bold") +
   # annotate the 48% collapse
   annotate("segment",
-           x = 1, xend = 3, y = 14.5, yend = 14.5,
-           color = "#CC0000", linewidth = 0.6,
+           x = 1, xend = 3, y = 16.5, yend = 16.5,
+           color = "#2171B5", linewidth = 0.6,
            arrow = arrow(ends = "both", length = unit(0.12, "cm"), type = "closed")) +
   annotate("text",
-           x = 2, y = 15.4,
+           x = 2, y = 17.6,
            label = "-48% SD collapse (frost year)",
-           size = 3.0, color = "#CC0000", fontface = "italic") +
+           size = 3.0, color = "#2171B5", fontface = "italic") +
   scale_fill_manual(values = yr_colors, guide = "none") +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.22)),
-                     limits = c(0, NA)) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.18)),
+                     limits = c(0, 19)) +
   labs(x = "Year", y = "Phenotypic SD (days)",
-       title = "C  DTFlower phenotypic variance by year",
-       subtitle = "Reduced SD in 2025 reflects frost-driven compression of genetic signal") +
+       title = "C  DTFlower phenotypic variance by year") +
   pub_theme
 
 # ── Assemble ──────────────────────────────────────────────────────────────────

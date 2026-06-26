@@ -14,7 +14,7 @@ suppressPackageStartupMessages({
 })
 
 BASE    <- "/Users/kendalllee/Documents/Blueberry/FINAL_GWAS"
-OUT_DIR <- file.path(BASE, "PUBLICATION")
+OUT_DIR <- file.path(BASE, "PUBLICATION/Linear_MS")
 THRESH  <- 5.52
 
 # ── Colours ───────────────────────────────────────────────────────────────────
@@ -26,15 +26,15 @@ COL_QTLSEQ   <- "#B45309"   # amber — QTL-seq
 COL_THRESH   <- "#888888"
 GENE_FILL    <- "#2C3E50"
 
-pub_theme <- theme_classic(base_size = 11) +
+pub_theme <- theme_classic(base_size = 12) +
   theme(
     axis.text        = element_text(color = "black", size = 10),
     axis.title       = element_text(color = "black", size = 11, face = "bold"),
     plot.title       = element_text(size = 12, face = "bold"),
     strip.background = element_blank(),
     strip.text       = element_text(face = "bold", size = 10),
-    legend.text      = element_text(size = 9),
-    legend.title     = element_text(size = 10, face = "bold"),
+    legend.text      = element_text(size = 9.5),
+    legend.title     = element_text(size = 10.5, face = "bold"),
     panel.border     = element_rect(color = "black", fill = NA, linewidth = 0.6)
   )
 
@@ -140,12 +140,7 @@ genes_chr5[, Start_Mb := Start / 1e6]
 genes_chr5[, End_Mb   := End   / 1e6]
 genes_chr5[, Mid_Mb   := (Start_Mb + End_Mb) / 2]
 
-# Candidate genes to label
-candidates <- data.table(
-  Gene  = c("g54686", "g54697"),
-  Label = c("g54686\n(PR-10/MLP)", "g54697\n(PR-10/MLP)"),
-  Pos_Mb = c(47.711, 47.899)
-)
+# No candidate gene labels in gene track (annotations unverified; see Supplementary Table S3)
 
 cat(sprintf("Genes in region: %d\n", nrow(genes_chr5)))
 
@@ -253,7 +248,7 @@ make_box_panel <- function(df, panel_label, fill_col, score = NA, pve = NA) {
   sub_txt <- paste(Filter(nchar, c(
     if (!is.na(score)) sprintf("-log10p = %.2f", score),
     if (!is.na(pve) && is.finite(pve)) sprintf("PVE = %.1f%%", pve)
-  )), collapse = "  |  ")
+  )), collapse = "\n")
 
   p <- ggplot(df, aes(x = DosClass, y = Pheno)) +
     geom_boxplot(fill = fill_col, colour = "#1a1a1a", alpha = 0.75,
@@ -264,17 +259,18 @@ make_box_panel <- function(df, panel_label, fill_col, score = NA, pve = NA) {
     geom_text(data = counts,
               aes(x = DosClass, y = y_bot + y_rng * 0.02,
                   label = paste0("n=", N)),
-              size = 2.6, colour = "grey40", inherit.aes = FALSE) +
+              size = 2.0, colour = "grey40", angle = 90,
+              hjust = 0, vjust = 0.5, inherit.aes = FALSE) +
     scale_x_discrete(drop = FALSE) +
     scale_y_continuous(limits = c(y_bot, y_top)) +
     labs(title = panel_label,
          subtitle = sub_txt,
-         x = "Dosage (ALT copies)", y = "Days to 50% Flowering") +
+         x = "ALT copies", y = "Days to 50% Flowering") +
     pub_theme +
     theme(
-      plot.title    = element_text(size = 9.5, face = "bold", colour = fill_col),
-      plot.subtitle = element_text(size = 7.5, colour = "grey40"),
-      axis.title.y  = element_text(size = 9),
+      plot.title    = element_text(size = 10, face = "bold", colour = fill_col),
+      plot.subtitle = element_text(size = 8, colour = "grey40"),
+      axis.title.y  = element_text(size = 10),
       panel.border  = element_rect(color = fill_col, fill = NA,
                                    linewidth = if (fill_col == COL_PRIMARY) 1.4 else 0.8)
     )
@@ -312,10 +308,10 @@ pA1 <- ggplot(gwas_dt[Score > 0],
   geom_point(stroke = 0) +
   geom_hline(yintercept = THRESH, linetype = "dashed",
              colour = COL_THRESH, linewidth = 0.7) +
-  annotate("text", x = 46.15, y = THRESH + 0.25, label = "Meff threshold",
-           size = 2.8, colour = COL_THRESH, hjust = 0) +
+  annotate("text", x = 49.3, y = THRESH + 0.25, label = "Meff threshold",
+           size = 3.0, colour = COL_THRESH, hjust = 1) +
   # Shade hotspot
-  annotate("rect", xmin = 47.5, xmax = 48.5,
+  annotate("rect", xmin = 47.15, xmax = 48.65,
            ymin = -Inf, ymax = Inf, alpha = 0.07, fill = "#8B0000") +
   scale_colour_manual(values = trait_colours, name = NULL) +
   scale_size_manual(values = trait_size, name = NULL) +
@@ -340,15 +336,7 @@ pA1 <- ggplot(gwas_dt[Score > 0],
 pA2 <- ggplot(genes_chr5) +
   geom_rect(aes(xmin = Start_Mb, xmax = End_Mb, ymin = 0, ymax = 1),
             fill = "#BDC3C7", colour = NA, alpha = 0.7) +
-  # Highlight candidates — wider bar + dot above for visibility
-  geom_rect(data = genes_chr5[Gene %in% c("g54686","g54697")],
-            aes(xmin = Start_Mb, xmax = End_Mb, ymin = 0, ymax = 1),
-            fill = GENE_FILL, colour = GENE_FILL, linewidth = 0.4) +
-  geom_point(data = genes_chr5[Gene %in% c("g54686","g54697")],
-             aes(x = Mid_Mb, y = 1.0),
-             shape = 25, fill = GENE_FILL, colour = GENE_FILL, size = 2.5,
-             inherit.aes = FALSE) +
-  annotate("rect", xmin = 47.5, xmax = 48.5,
+  annotate("rect", xmin = 47.15, xmax = 48.65,
            ymin = -Inf, ymax = Inf, alpha = 0.07, fill = "#8B0000") +
   scale_x_continuous(limits = c(46, 49.5), breaks = seq(46, 49.5, 0.5),
                      expand = c(0, 0), name = "Chr.05 Position (Mb)") +
@@ -382,11 +370,14 @@ pB1 <- pB1 + labs(y = "Days to 50% Flowering")
 pB2 <- pB2 + labs(y = NULL)
 pB3 <- pB3 + labs(y = NULL)
 
+pB1 <- pB1 + labs(y = "Days to 50% Flowering", x = NULL)
+pB2 <- pB2 + labs(y = NULL, x = "ALT copies")
+pB3 <- pB3 + labs(y = NULL, x = NULL)
 cat("Building Panel C — QTL-seq...\n")
 
 # ---- Panel C: QTL-seq R² ----
 pC <- ggplot(qtlseq_chr5, aes(x = Pos_Mb)) +
-  annotate("rect", xmin = 47.5, xmax = 48.5,
+  annotate("rect", xmin = 47.15, xmax = 48.65,
            ymin = -Inf, ymax = Inf, alpha = 0.07, fill = "#8B0000") +
   geom_point(aes(y = R2 * 100), colour = "grey75", size = 0.5, alpha = 0.5) +
   geom_line(aes(y = R2_smooth * 100), colour = COL_QTLSEQ,
@@ -400,7 +391,7 @@ pC <- ggplot(qtlseq_chr5, aes(x = Pos_Mb)) +
            arrow = arrow(length = unit(0.11, "cm"), type = "closed"),
            colour = COL_QTLSEQ, linewidth = 0.7) +
   annotate("text", x = 47.3, y = 32,
-           label = "R²=26.6%", size = 2.8, colour = COL_QTLSEQ, hjust = 0.5) +
+           label = "R²=26.6%", size = 3.1, colour = COL_QTLSEQ, hjust = 0.5) +
   annotate("segment", x = 47.3, xend = 47.67,
            y = 31.2, yend = 29.2,
            colour = COL_QTLSEQ, linewidth = 0.4, linetype = "dotted") +
@@ -409,7 +400,7 @@ pC <- ggplot(qtlseq_chr5, aes(x = Pos_Mb)) +
            arrow = arrow(length = unit(0.11, "cm"), type = "closed"),
            colour = COL_QTLSEQ, linewidth = 0.7) +
   annotate("text", x = 48.3, y = 32,
-           label = "R²=27.3%", size = 2.8, colour = COL_QTLSEQ, hjust = 0.5) +
+           label = "R²=27.3%", size = 3.1, colour = COL_QTLSEQ, hjust = 0.5) +
   annotate("segment", x = 48.3, xend = 47.95,
            y = 31.2, yend = 29.2,
            colour = COL_QTLSEQ, linewidth = 0.4, linetype = "dotted") +

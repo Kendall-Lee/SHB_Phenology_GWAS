@@ -1,9 +1,11 @@
 #!/usr/bin/env Rscript
 # Fig4_StableQTL_Heatmap.R
-# Figure 4 — Linear GWAS: Stable QTL heatmap
+# Figure 4 — Linear GWAS: Stable QTL heatmap (Figure 5 = yr.25 stress loci)
+# The Plant Genome specs: double-column 180 mm (7.087 in), 300 DPI, min 8 pt.
 #   Rows:    22 stable loci (peak marker per 1-Mb locus, BLUE_exc.25 analysis)
 #            + Chr.03:38.4 Mb stress locus (separator line, yr.25 amplification)
-#   Columns: [DTFlower | DTFruit | Flow2Fruit | FruitWeight] × [BLUE_exc.25 | yr.23 | yr.24 | yr.25]
+#   Columns: [DTFlower | DTFruit | Flow2Fruit] × [BLUE_exc.25 | yr.23 | yr.24 | yr.25]
+#            (FruitWeight excluded — no stable BLUE exc.25 loci; Chr.03 stress row omits BLUE exc.25 cell)
 #   Fill:    -log10(p) from GWASpoly scores; cells below Meff threshold (5.52) shown in grey
 # Output:   Linear_MS/Fig4_StableQTL_Heatmap.pdf + .png
 
@@ -15,7 +17,7 @@ suppressPackageStartupMessages({
 })
 
 BASE    <- "/Users/kendalllee/Documents/Blueberry/FINAL_GWAS"
-OUT_DIR <- file.path(BASE, "PUBLICATION/Linear_MS")
+OUT_DIR <- file.path(BASE, "PUBLICATION/Linear_MS/Figures")
 THRESH  <- 5.52
 
 # ── Load data ─────────────────────────────────────────────────────────────────
@@ -104,7 +106,7 @@ for (i in seq_len(nrow(peak_tag))) {
   lbl <- paste0(peak_tag$Locus[i], "  [", peak_tag$Primary_trait[i], "]")
   locus_labels[peak_tag$Locus[i]] <- lbl
 }
-locus_labels["Chr.03: 38.4 Mb*"] <- "Chr.03: 38.4 Mb*  [DTFruit]"
+locus_labels["Chr.03: 38.4 Mb*"] <- "Chr.03: 38.4 Mb*  [Flow2Fruit]"
 
 long_all[, Locus := factor(Locus, levels = rev(locus_order))]
 
@@ -174,11 +176,11 @@ p <- ggplot(long_all, aes(x = Year, y = Locus, fill = ifelse(Sig, Score_disp, NA
   ) +
   scale_y_discrete(labels = locus_labels) +
   labs(
-    title    = "Stable GWAS loci across traits and years - Linear GWAS (Suziblue hap1)",
-    subtitle = paste0("Fill = -log10(p) from GWASpoly LOCO scan; grey = below Meff threshold (", THRESH, ").\n",
-                      "BLUE exc.25 = yr.23+yr.24 combined BLUE (primary analysis). ",
-                      "# Chr.03:38.4 Mb is yr.25 stress-specific (BLUE exc.25 cell excluded). ",
-                      "* Score capped at 23 for display (actual = 22.69)."),
+    title    = "Stable GWAS loci across traits and years\nLinear GWAS (Suziblue hap1 reference)",
+    subtitle = paste0(
+      "Fill = -log10(p) from GWASpoly LOCO scan; grey = below Meff threshold (", THRESH, ").\n",
+      "BLUE exc.25 = yr.23+yr.24 combined BLUE (primary analysis).\n",
+      "Chr.03:38.4 Mb* is yr.25 stress-specific; score capped at 23 for display (actual = 22.69)."),
     x = NULL, y = NULL
   ) +
   pub_theme +
@@ -190,9 +192,10 @@ p <- ggplot(long_all, aes(x = Year, y = Locus, fill = ifelse(Sig, Score_disp, NA
   )
 
 # ── Save ──────────────────────────────────────────────────────────────────────
+W <- 7.087; H <- 6.2   # TPG double-column = 180 mm; extra height for 23 locus rows
 ggsave(file.path(OUT_DIR, "Fig4_StableQTL_Heatmap.pdf"), p,
-       width = 7.09, height = 5.5, units = "in", device = "pdf")
+       width = W, height = H, units = "in", device = "pdf")
 ggsave(file.path(OUT_DIR, "Fig4_StableQTL_Heatmap.png"), p,
-       width = 7.09, height = 5.5, units = "in", dpi = 300, device = "png")
+       width = W, height = H, units = "in", dpi = 300, device = "png")
 
-cat(sprintf("Saved Fig4_StableQTL_Heatmap to %s\n", OUT_DIR))
+cat(sprintf("Saved Fig4_StableQTL_Heatmap to %s (%.3f x %.1f in, 300 dpi)\n", OUT_DIR, W, H))

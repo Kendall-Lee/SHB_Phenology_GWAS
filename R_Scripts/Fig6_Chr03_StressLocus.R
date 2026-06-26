@@ -1,10 +1,12 @@
-## Fig6_Yr25_Stress_QTL.R  (was Fig6_Chr03_StressLocus.R)
-## Figure 6 -- Year 2025 stress QTL: 3-panel figure
-## Panel D (Chr.03:38.4 Mb allele effect) REMOVED 2026-05-29:
-##   n=5 in rare dosage class, marker non-unique in genome (6 hits, off-target),
-##   absent from stable-year scan (RedoNo25 DTFruit_BLUE score=1.17), not defensible.
+## Fig5_Yr25_Stress_QTL.R  (consolidated from Fig4 + Fig6)
+## Single-panel figure: PVE bars for yr.2025 stress-responsive and stable loci.
+## Panels A (QTL counts) and B (Jan min temp) removed 2026-06-05:
+##   - Panel B redundant with Figure 1B (frost/freeze event counts).
+##   - Panel A better stated in results text.
+##   - Panel D (Chr.03 allele effect) removed 2026-05-29: n=5 rare allele, off-target marker.
 ##
-## Output: Linear_MS/Fig4_Yr25_Stress_QTL.pdf + .png
+## The Plant Genome specs: double-column = 180 mm (7.087 in), 300 DPI, min 8 pt font at print.
+## Output: Linear_MS/Figures/Fig5_Yr25_Stress_QTL.pdf + .png
 
 suppressPackageStartupMessages({
   library(data.table)
@@ -13,7 +15,7 @@ suppressPackageStartupMessages({
 })
 
 BASE    <- "/Users/kendalllee/Documents/Blueberry/FINAL_GWAS"
-OUT_DIR <- file.path(BASE, "PUBLICATION/Linear_MS")
+OUT_DIR <- file.path(BASE, "PUBLICATION/Linear_MS/Figures")
 
 pub_theme <- theme_classic(base_size = 11) +
   theme(
@@ -30,62 +32,14 @@ trait_colors <- c(
   "FruitWeight" = "#7ECAE0"
 )
 
-fig_title <- function(txt, size = 10.5)
-  ggdraw() + draw_label(txt, fontface = "bold", size = size, x = 0.01, hjust = 0)
-
-# ── Panel A: QTL counts --------------------------------------------------------
-year_counts <- data.table(
-  Dataset = factor(
-    c("GWAS Linear\n(2023-2025)", "GWAS Pan.\n(2023-2025)",
-      "GWAS Linear\n(redoNo25)",  "GWAS Pan.\n(redoNo25)",
-      "GWAS\n(2025 only)"),
-    levels = c("GWAS Linear\n(2023-2025)", "GWAS Pan.\n(2023-2025)",
-               "GWAS Linear\n(redoNo25)",  "GWAS Pan.\n(redoNo25)",
-               "GWAS\n(2025 only)")
-  ),
-  N_QTL     = c(358, 345, 20, 23, 281),
-  Year_type = c("All years","All years","Normal years","Normal years","2025 stress")
-)
-
-p_a <- ggplot(year_counts, aes(x = Dataset, y = N_QTL, fill = Year_type)) +
-  geom_col(color = "grey25", linewidth = 0.35, width = 0.65) +
-  geom_text(aes(label = N_QTL), vjust = -0.35, size = 3.5, fontface = "bold") +
-  scale_fill_manual(
-    values = c("All years" = "#1A6FAF", "Normal years" = "#7ECAE0",
-               "2025 stress" = "#D84315"),
-    name = NULL) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.14))) +
-  labs(x = NULL, y = "Significant QTL detected", title = "A  QTL counts by analysis") +
-  pub_theme +
-  theme(legend.position = c(0.72, 0.82), legend.background = element_blank(),
-        axis.text.x = element_text(size = 8, lineheight = 1.2))
-
-# ── Panel B: January minimum temperature ---------------------------------------
-temp_data <- data.table(
-  Year     = factor(c("2023","2024","2025")),
-  Min_Temp = c(3.8, -1.9, -5.3)
-)
-
-p_b <- ggplot(temp_data, aes(x = Year, y = Min_Temp, fill = Min_Temp)) +
-  geom_col(color = "grey25", linewidth = 0.35, width = 0.55) +
-  geom_hline(yintercept = 0, color = "black", linewidth = 0.5) +
-  geom_text(aes(label = paste0(Min_Temp, "C"),
-                vjust = ifelse(Min_Temp >= 0, -0.3, 1.3)),
-            size = 3.3, fontface = "bold") +
-  scale_fill_gradient2(low = "#0D3B6E", mid = "grey92", high = "#D84315",
-                       midpoint = 0, guide = "none") +
-  scale_y_continuous(expand = expansion(mult = c(0.2, 0.15))) +
-  labs(x = "Year", y = "Min. Jan. Temp (C)", title = "B  January minimum temperature") +
-  pub_theme
-
-# ── Panel C: PVE bars ---------------------------------------------------------
+# ── Panel: PVE bars -----------------------------------------------------------
 stress_qtl <- data.table(
-  Label = c("DTFruit (2025)\nChr.03:38.4 Mb",
+  Label = c("Flow2Fruit (2025)\nChr.03:38.4 Mb",
             "DTFlower (2025)\nChr.11:45.5 Mb",
             "DTFruit (2025)\nChr.07:25.0 Mb"),
   PVE   = c(13.26, 6.11, 4.58),
-  Trait = c("DTFruit","DTFlower","DTFruit"),
-  plab  = c("p = 2.3e-18*", "p = 5.8e-9", "p = 5.4e-7"),
+  Trait = c("Flow2Fruit","DTFlower","DTFruit"),
+  plab  = c("p = 2.3e-18", "p = 5.8e-9", "p = 5.4e-7"),
   Type  = "Stress-specific (yr.2025 only)"
 )
 stable_in_yr25 <- data.table(
@@ -102,34 +56,33 @@ all_bars[, Label := factor(Label, levels = rev(c(stress_qtl$Label, stable_in_yr2
 p_c <- ggplot(all_bars, aes(y = Label, x = PVE, fill = Trait, alpha = Type)) +
   geom_col(color = "grey25", linewidth = 0.35, width = 0.55) +
   geom_text(aes(label = sprintf("%.2f%%  %s", PVE, plab)),
-            hjust = -0.05, size = 2.9) +
+            hjust = -0.05, size = 3.0) +
   scale_fill_manual(values = trait_colors, guide = "none") +
   scale_alpha_manual(
     values = c("Stress-specific (yr.2025 only)" = 1.0,
                "Phenology locus in yr.2025"     = 0.38),
     name = NULL) +
-  scale_x_continuous(expand = expansion(mult = c(0, 0.65))) +
+  # x-axis runs to 30 so inline labels clear the plot area
+  scale_x_continuous(limits = c(0, 30), breaks = c(0, 5, 10, 15, 20),
+                     expand = expansion(mult = c(0, 0))) +
   labs(x = "PVE (%) in Year 2025", y = NULL,
-       title = "C  Exploratory stress-responsive QTL and stable locus performance in Year 2025",
+       title = "Year 2025 stress-responsive and stable locus performance",
+       # manually wrap subtitle so no line exceeds ~90 chars (fits 180 mm at 8 pt)
        subtitle = paste0(
-         "Faded bars: stable phenology loci attenuated in 2025 frost year.\n",
-         "* Chr.03:38.4 Mb: Flow2Fruit only; exploratory (n=5 rare allele, requires replication).")) +
+         "Solid bars: loci detected exclusively in yr.2025 (absent from stable-year BLUE_exc.25 scan).\n",
+         "Faded bars: stable phenology loci attenuated under frost stress.\n",
+         "Chr.03:38.4 Mb (Flow2Fruit) is exploratory: n=5 in rare dosage class, requires replication.")) +
   pub_theme +
-  theme(axis.text.y = element_text(size = 8, lineheight = 1.2),
-        legend.position = "bottom", legend.text = element_text(size = 8),
-        plot.subtitle = element_text(size = 7.5, color = "grey40", lineheight = 1.3))
+  theme(axis.text.y      = element_text(size = 9, lineheight = 1.3),
+        plot.margin      = margin(t = 6, r = 10, b = 4, l = 4, unit = "pt"),
+        legend.position  = "bottom",
+        legend.text      = element_text(size = 9),
+        plot.subtitle    = element_text(size = 8, color = "grey40", lineheight = 1.35))
 
-# ── Assemble ------------------------------------------------------------------
-fig6 <- plot_grid(
-  fig_title("Figure 6. Year 2025 Frost-Stress QTL Architecture"),
-  plot_grid(
-    plot_grid(p_a, p_b, ncol = 2, rel_widths = c(1.7, 1)),
-    p_c,
-    nrow = 2, rel_heights = c(1.0, 1.3)
-  ),
-  nrow = 2, rel_heights = c(0.04, 1)
-)
-
-ggsave(file.path(OUT_DIR, "Fig4_Yr25_Stress_QTL.pdf"), fig6, width = 7.09, height = 5.5, units = "in")
-ggsave(file.path(OUT_DIR, "Fig4_Yr25_Stress_QTL.png"), fig6, width = 7.09, height = 5.5, units = "in", dpi = 300)
-cat(sprintf("Saved: %s\n", file.path(OUT_DIR, "Fig4_Yr25_Stress_QTL.pdf")))
+# ── Save — TPG double-column: 180 mm = 7.087 in, 300 DPI -----------------------
+W <- 7.087; H <- 4.5
+ggsave(file.path(OUT_DIR, "Fig5_Yr25_Stress_QTL.pdf"), p_c, width = W, height = H, units = "in")
+ggsave(file.path(OUT_DIR, "Fig5_Yr25_Stress_QTL.png"), p_c, width = W, height = H,
+       units = "in", dpi = 300)
+cat(sprintf("Saved: %s (%.3f x %.1f in, 300 dpi)\n",
+            file.path(OUT_DIR, "Fig5_Yr25_Stress_QTL.pdf"), W, H))
